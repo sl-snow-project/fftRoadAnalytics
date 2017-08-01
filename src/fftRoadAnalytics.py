@@ -3,7 +3,6 @@
 # vim:set fileencoding=utf-8:
 
 from scipy.fftpack import fft
-from sklearn.preprocessing import normalize
 import pandas as pd
 import numpy as np
 import sys
@@ -43,7 +42,8 @@ class road_aizu_fft:
         time_arr       = [time_arr_v1[i] for i in position_arr]
         carname_arr    = [carname_v1[i] for i in position_arr]
 
-        return [list(i) for i in zip(carname_arr, time_arr, sum_sqare, original_pulse_sumarr, latitude_arr, longtitude_arr, window_pulse)]
+        # TODO: add window pulse element
+        return [list(i) for i in zip(carname_arr, time_arr, sum_sqare, original_pulse_sumarr, latitude_arr, longtitude_arr)]
 
 
 dirname = ""
