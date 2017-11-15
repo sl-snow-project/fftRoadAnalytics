@@ -8,6 +8,7 @@ import numpy as np
 import sys
 import os
 
+
 class road_aizu_fft:
     def __init__(self, blocksize=40, normalize=True):
         self.blocksize = blocksize
@@ -46,29 +47,30 @@ class road_aizu_fft:
         return [list(i) for i in zip(carname_arr, time_arr, sum_sqare, original_pulse_sumarr, latitude_arr, longtitude_arr)]
 
 
-dirname = ""
-tmp = road_aizu_fft(blocksize=40)
-# df = pd.read_csv(".//sample.csv")
-df = pd.read_csv(sys.argv[1])
-print(sys.argv[1])
-try:
-   os.mkdir(sys.argv[2])
-   dirname = sys.argv[2]
-except:
-   os.mkdir("datetime")
-   dirname = "datetime"
+if __name__ == "__main__":
+    dirname = ""
+    tmp = road_aizu_fft(blocksize=40)
+    # df = pd.read_csv(".//sample.csv")
+    df = pd.read_csv(sys.argv[1])
+    print(sys.argv[1])
+    try:
+       os.mkdir(sys.argv[2])
+       dirname = sys.argv[2]
+    except:
+       os.mkdir("datetime")
+       dirname = "datetime"
 
-for carname in df.car_name.unique():
-    print(carname)
+    for carname in df.car_name.unique():
+        print(carname)
 
-    #uniqcar_df = df[df.car_name.str.contains(carname) and carname.contains(df.car_name)]
-    uniqcar_df = df.query('car_name=="'+carname+'"')
-    unix_date  = uniqcar_df.measurement_ms
-    latitude   = uniqcar_df.latitude
-    longitude  = uniqcar_df.longitude
-    z_vertical = uniqcar_df.accel_z_vertical-9.8
-    carid      = uniqcar_df.car_name
-    datetime   = pd.to_datetime(unix_date, unit="ms")
+        #uniqcar_df = df[df.car_name.str.contains(carname) and carname.contains(df.car_name)]
+        uniqcar_df = df.query('car_name=="'+carname+'"')
+        unix_date  = uniqcar_df.measurement_ms
+        latitude   = uniqcar_df.latitude
+        longitude  = uniqcar_df.longitude
+        z_vertical = uniqcar_df.accel_z_vertical-9.8
+        carid      = uniqcar_df.car_name
+        datetime   = pd.to_datetime(unix_date, unit="ms")
 
     fft_response = tmp.parse_fft(pulse_data=z_vertical, carname=list(carid), latitude=list(latitude), longitude=list(longitude), time=datetime)
     response_uniqcar_df = pd.DataFrame(fft_response)
