@@ -22,6 +22,7 @@ class road_aizu_fft:
         start_position_each_data = [i for i in range(0, np.shape(input_data)[0], int(self.blocksize/2))]
         window_pulse = [input_data[p:][:self.blocksize] for p in start_position_each_data]
         validated_window_pulse = [data for data in window_pulse if len(data) == self.blocksize]
+        return validated_window_pulse
 
 
     
