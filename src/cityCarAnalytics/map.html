@@ -15,39 +15,6 @@ scaleControl: true,
 scrollwheel: false
 });
 
-new google.maps.Circle({
-center: myLatLng,       // 中心点(google.maps.LatLng)
-fillColor: '#0000ff',   // 塗りつぶし色
-fillOpacity: 0.6,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
-map: myMap,             // 表示させる地図（google.maps.Map）
-radius: 30,          // 半径（ｍ）
-strokeColor: '#0000ff', // 外周色
-strokeOpacity: 1.0,       // 外周透過度（0: 透明 ⇔ 1:不透明）
-strokeWeight: 1         // 外周太さ（ピクセル）
-});
-
-new google.maps.Circle({
-center: myLatLng,       // 中心点(google.maps.LatLng)
-fillColor: '#0000ff',   // 塗りつぶし色
-fillOpacity: 0.3,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
-map: myMap,             // 表示させる地図（google.maps.Map）
-radius: 2000,          // 半径（ｍ）
-strokeColor: '#0000ff', // 外周色
-strokeOpacity: 0.5,       // 外周透過度（0: 透明 ⇔ 1:不透明）
-strokeWeight: 1         // 外周太さ（ピクセル）
-});
-
-new google.maps.Circle({
-center: myLatLng,       // 中心点(google.maps.LatLng)
-fillColor: '#0000ff',   // 塗りつぶし色
-fillOpacity: 0.2,       // 塗りつぶし透過度（0: 透明 ⇔ 1:不透明）
-map: myMap,             // 表示させる地図（google.maps.Map）
-radius: 5000,          // 半径（ｍ）
-strokeColor: '#0000ff', // 外周色
-strokeOpacity: 0.7,       // 外周透過度（0: 透明 ⇔ 1:不透明）
-strokeWeight: 1         // 外周太さ（ピクセル）
-});
-
 $(document).ready(function(){
     $("#file").change(function(e){
         var file = e.target.files[0];
@@ -78,10 +45,9 @@ function toArray(csv){
         var mycolor = "#ff0000";
         var mysize = 2;
 
-        tmp_num += 1;
-        if(tmp_num > 10000){
-            return true;
-        }
+        //塗りつぶし色設定の計算式
+        // 値x
+        // 赤(x * 255) + 青(255-x*255)
         new google.maps.Circle({
         center: costomer_LatLng,       // 中心点(google.maps.LatLng)
         fillColor: mycolor,   // 塗りつぶし色
