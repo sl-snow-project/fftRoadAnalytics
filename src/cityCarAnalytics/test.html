@@ -63,11 +63,11 @@
 					var rectangle = new google.maps.Rectangle({
           			strokeColor: '#000000',				//枠の色
 		  			strokeOpacity: 0.5,					//枠の不透明度
-		  			strokeWeight: 1,						//枠の幅
-		  			fillColor: '#FF0000',					//中身の色
-		  			fillOpacity: Number(itemArr[k][5]),					//中身の不透明度
-		  			map: mymap, 							//表示させる地図
-		  			fillOpacity: Number(itemArr[k][5]),	//塗りつぶし色
+		  			strokeWeight: 1,					//枠の幅
+		  			fillColor: '#FF0000',				//中身の色
+		  			fillOpacity: Number(itemArr[k][5]),	//中身の不透明度(正確率)
+		  			map: mymap, 						//表示させる地図
+		  			fillOpacity: Number(itemArr[k][5]),	//塗りつぶし色(正確率)
 		  			bounds: {
 						north: Number(itemArr[k][3]),
 						south: Number(itemArr[k][1]),
