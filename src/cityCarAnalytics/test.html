@@ -3,8 +3,8 @@
   <head>
     <style>
        #map {
-        height: 1200px;
-        width: 80%;
+        height: 1000px;
+        width: 800;
        }
     </style>
   </head>
@@ -38,7 +38,7 @@
             	// 行単位で配列にする
             	var lineArr = reader.result.split("\n");
             	// 行と列の二次元配列にする
-            	//var itemArr = [];
+            	// var itemArr = [];
             	for (var i = 0; i < lineArr.length; i++) {
                 	itemArr[i] = lineArr[i].split(",");
             	}
@@ -57,7 +57,6 @@
             insert += '</table>';
             result.innerHTML = insert;
 
- console.log(itemArr)
 		//以下のコードがマップに長方形を配置する
         var rectangle = new google.maps.Rectangle({
           strokeColor: '#FF0000',
@@ -67,17 +66,16 @@
 		  fillOpacity: 0.35,
 		  map: mymap,
 		  bounds: {
-			north: Number(itemArr[1][1]),
-			south: Number(itemArr[1][2]),
-			east: Number(itemArr[1][3]),
-			west: Number(itemArr[1][4])
+			north: Number(itemArr[1][3]),
+			south: Number(itemArr[1][1]),
+			east: Number(itemArr[1][4]),
+			west: Number(itemArr[1][2])
 		  }
         });
 			}
         	// ファイル読み取りを実行
         	reader.readAsText(fileData);
     	}, false);
-
 	}
     
 		//initMap関数はWebページ読み込み時にマップを初期化して追加する
@@ -89,7 +87,6 @@
           center: uluru,
 		  mapTypeId: 'terrain'
         });
-		console.log(itemArr);
       }
     </script>
 	<!--指定したURLからAPIを読み込む-->
