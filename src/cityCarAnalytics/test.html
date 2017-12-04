@@ -58,22 +58,24 @@
             	insert += '</table>';
             	result.innerHTML = insert;
 
-				//以下のコードがマップに長方形を配置する
-        		var rectangle = new google.maps.Rectangle({
-          		strokeColor: '#000000',				//枠の色
-		  		strokeOpacity: 0.5,					//枠の不透明度
-		  		strokeWeight: 1,						//枠の幅
-		  		fillColor: '#FF0000',					//中身の色
-		  		fillOpacity: Number(itemArr[1][5]),					//中身の不透明度
-		  		map: mymap, 							//表示させる地図
-		  		fillOpacity: Number(itemArr[1][5]),	//塗りつぶし色
-		  		bounds: {
-					north: Number(itemArr[1][3]),
-					south: Number(itemArr[1][1]),
-					east: Number(itemArr[1][4]),
-					west: Number(itemArr[1][2])
-		  		}
-        		});
+				//以下のコードが複数の長方形を配置する
+				for (var k = 1; k < itemArr.length; k++) {
+					var rectangle = new google.maps.Rectangle({
+          			strokeColor: '#000000',				//枠の色
+		  			strokeOpacity: 0.5,					//枠の不透明度
+		  			strokeWeight: 1,						//枠の幅
+		  			fillColor: '#FF0000',					//中身の色
+		  			fillOpacity: Number(itemArr[k][5]),					//中身の不透明度
+		  			map: mymap, 							//表示させる地図
+		  			fillOpacity: Number(itemArr[k][5]),	//塗りつぶし色
+		  			bounds: {
+						north: Number(itemArr[k][3]),
+						south: Number(itemArr[k][1]),
+						east: Number(itemArr[k][4]),
+						west: Number(itemArr[k][2])
+		  			}
+        			})
+				};
 			}
     		// ファイル読み取りを実行する、このメソッドは非同期実行
     		reader.readAsText(fileData);
