@@ -3,28 +3,61 @@
   <head>
     <style>
        #map {
-        height: 400px;
-        width: 100%;
+        height: 1200px;
+        width: 80%;
        }
     </style>
   </head>
   <body>
     <h3>My Google Maps Demo</h3>
-    <input id="file" type=":file" > //ファイル選択ボタン
+	<!--ファイルの読み込み-->
+	<form name="test">
+	<input type="file" id="selfile"><br>
+	<textarea name="txt" rows="10" cols="50" readonly></textarea>
+	</form>
+	<!--mapを表示するページ領域-->
 	<div id="map"></div>
-    <script>
+
+	<script>
+	//読み込んだファイルの処理
+	var obj1 = document.getElementById("selfile");
+	//ダイアログでファイルが選択された時
+	obj1.addEventListener("change",function(evt){
+    var file = evt.target.files;
+    //FileReaderの作成
+    var reader = new FileReader();
+    //テキスト形式で読み込む
+    reader.readAsText(file[0]);
+    //読込終了後の処理
+    reader.onload = function(ev){
+        // txtファイルから読み込んだデータを変数に格納
+        var datas = reader.result;
+        // 変数内のデータをカンマ毎に区切って分割
+	    var data = datas.split(",");
+        //テキストエリアに表示する
+		window.alert(data[0]+data[1]);
+  		}
+	},false);
+	</script>
+    
+	<script>
+		//initMap関数はWebページ読み込み時にマップを初期化して追加する
       function initMap() {
         var uluru = {lat: 37.507491, lng: 139.931477};
-        var map = new google.maps.Map(document.getElementById('map'), {
+		//div要素内にマップを作成するために、Googleマップオブジェクトを追加する
+        var mymap = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
           center: uluru
         });
+		//以下のコードがマップにマーカーを配置する
         var marker = new google.maps.Marker({
           position: uluru,
-          map: map
+          map: mymap
         });
       }
     </script>
+	<!--指定したURLからAPIを読み込む-->
+	<!--callbackパラメータは、APIが完全に読み込まれた後initMap関数を実行する-->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUKmG58uXrzxl4mG-8DyCcYZ1uar7KxAc&callback=initMap">
     </script>
