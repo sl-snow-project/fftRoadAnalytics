@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 import os
 
-TH = 10
+TH = 10000
 
 class Sample:
     def __init__(self,x1,y1,x2,y2):
@@ -15,8 +15,12 @@ class Sample:
         self.path_cou = 0
         self.noise_cou = 0
         self.id = []
+        self.x1 = []
+        self.x2 = []
+        self.y1 = []
+        self.y2 = []
         self.noise = []
-        self.a = ""
+        self.prev = ""
 
     def search(self,longitude,latitude,noise,id):
         x1 = self.x1
@@ -24,9 +28,9 @@ class Sample:
         y1 = self.y1
         y2 = self.y2
         for i in range(len(longitude)):
-            if (longitude[i] <= x2) & (longitude[i] >= x1) & (latitude[i] <= y2) & (latitude[i] >= y1):
-                if self.a != id[i]:
-                    self.a = id[i]
+            if (longitude[i] <= x2) & (longitude[i] >= x1) & (latitude[i] >= y2) & (latitude[i] <= y1):
+                if self.prev != id[i]:
+                    self.prev = id[i]
                     self.id.append(id[i])
                 self.path_cou += 1
                 if noise[i] > TH:
@@ -34,7 +38,9 @@ class Sample:
 
 
 if __name__ == "__main__":
+    #sys.argv[1]は、入力するcsvデータ
     df = pd.read_csv(sys.argv[1], sep = ',', dtype = 'object')
+    #sys.argv[2]はx1,sys.argv[3]はx2,sys.argv[4]はy1,sys.argv[5]はy2
     tmp = Sample(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])
 
     for carname in df.car_name.unique():
