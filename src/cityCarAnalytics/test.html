@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <h3>My Google Maps for Snow ZAKU</h3>
+    <h3>My Google Maps for Snow DEKOBOKO</h3>
 	<input type="file" name="select" id="select" /> <!--ファイル選択-->
 	<div id="result"></div>							<!--ファイル内容をテーブルで表示するための領域確保-->
 	<div id="map"></div>							<!--マップを表示するための領域確保-->
@@ -56,7 +56,8 @@
                 	insert += '</tr>';
             	}
             	insert += '</table>';
-            	result.innerHTML = insert;
+				//tableをhtmlに書き込み
+            	//result.innerHTML = insert;
 
 				//以下のコードが複数の長方形を配置する
 				for (var k = 1; k < itemArr.length; k++) {
