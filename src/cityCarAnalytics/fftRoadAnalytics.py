@@ -93,5 +93,13 @@ if __name__ == "__main__":
         datetime   = pd.to_datetime(unix_date, unit="ms")
 
         fft_response = tmp.parse_fft(pulse_data=z_vertical, carname=list(carid), latitude=list(latitude), longitude=list(longitude), time=datetime)
-        response_uniqcar_df = pd.DataFrame(fft_response)
+        response_uniqcar_df = pd.DataFrame(fft_response,
+                                           columns=[
+                                               'car_id',
+                                               'time',
+                                               'accel_z_vertical',
+                                               'raw_data',
+                                               'latitude',
+                                               'longitude'
+                                           ])
         response_uniqcar_df.to_csv(str(dirname)+"/"+str(carname) + '.csv')
