@@ -4,7 +4,7 @@ import sys
 import os
 
 TH = 600
-L = 5
+L = 20
 lon1 = 0.000010966382364
 lat1 = 0.000008983148616
 #x1y1,x2y2 全体の範囲
@@ -117,14 +117,15 @@ if __name__ == "__main__":
                 y2 = (j+1)*lon1*L+tmp.y1
                 array = [x1,y1,x2,y2,tmp.li_ans[i][j]]
                 # li_loc.append(li_loc,array,axis=0)
-                li_loc.append(array)
+                if(tmp.li_ans[i][j] != -1):
+                    li_loc.append(array)
 
             #i2 = i + L
             #j2 = j + L
 
 
     li_loc2 = np.array(li_loc)
-    np.savetxt("test.csv",li_loc2)
+    np.savetxt("test.csv",li_loc2,delimiter=",")
     #tmp_df = pd.DataFrame(li_loc2,column=['x1','x2','y1','y2'])
     #tmp_df = pd.DataFrame({"x1": range(s1,e1),"y1": range(s2,e2),"ans": tmp.li_ans})
     #tmp_df.to_csv("sample.csv")
