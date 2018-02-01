@@ -3,8 +3,8 @@ import pandas as pd
 import sys
 import os
 
-TH = 600
-L = 20
+TH = 6000
+L = 50
 lon1 = 0.000010966382364
 lat1 = 0.000008983148616
 #x1y1,x2y2 全体の範囲
@@ -54,12 +54,26 @@ class Sample:
 
             #if locx >= x1 and locx <= x2 and locy >= y1 and locy <= y2:
             if latitude[i] >= x1 and latitude[i] <= x2 and longitude[i] >= y1 and longitude[i] <= y2:
-                if(self.li_path[locx][locy]==-1):
-                    self.li_path[locx][locy] =0
-                self.li_path[locx][locy] += 1
-                #print("############################")
+                # print(np.shape(self.li_path))
+                # print(locy, locx)
+                try:
+                    # if(self.li_path[locy][locx]==-1):
+                    #     self.li_path[locy][locx] =0
+                    # self.li_path[locy][locx] += 1
+                    if(self.li_path[locx][locy]==-1):
+                        self.li_path[locx][locy] =0
+                    self.li_path[locx][locy] += 1
+                    #print("############################")
+                except:
+                    print(np.shape(self.li_path))
+                    print(locy, locx)
+                    continue
+
 
                 if noise[i] > TH:
+                    # if(self.li_noise[locy][locx]==-1):
+                    #     self.li_noise[locy][locx] =0;
+                    # self.li_noise[locy][locx] += 1;
                     if(self.li_noise[locx][locy]==-1):
                         self.li_noise[locx][locy] =0;
                     self.li_noise[locx][locy] += 1;
@@ -87,11 +101,12 @@ class Sample:
 
 if __name__ == "__main__":
     #sys.argv[1]は、入力するcsvデータ
-    df = pd.read_csv(sys.argv[1], sep = ',', dtype = 'object')
+    df = pd.read_csv("20160912/aizu_BL-01_11.csv", sep = ',', dtype = 'object')
     #sys.argv[2]はx1,sys.argv[3]はx2,sys.argv[4]はy1,sys.argv[5]はy2
 
     #tmp = Sample(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])
-    tmp = Sample(37.498440,139.917766,37.511156,139.928565)
+    # tmp = Sample(37.498440,139.917766,37.511156,139.928565)
+    tmp = Sample(37.483200,139.897048,37.605653,139.937304)
     latitude = df.latitude
     longitude = df.longitude
     noise = df.accel_z_vertical
@@ -126,6 +141,7 @@ if __name__ == "__main__":
 
     li_loc2 = np.array(li_loc)
     np.savetxt("test.csv",li_loc2,delimiter=",")
+    print(len(li_loc2))
     #tmp_df = pd.DataFrame(li_loc2,column=['x1','x2','y1','y2'])
     #tmp_df = pd.DataFrame({"x1": range(s1,e1),"y1": range(s2,e2),"ans": tmp.li_ans})
     #tmp_df.to_csv("sample.csv")

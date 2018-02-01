@@ -66,14 +66,14 @@
 		  			strokeOpacity: 0.5,					//枠の不透明度
 		  			strokeWeight: 1,					//枠の幅
 		  			fillColor: '#FF0000',				//中身の色
-		  			fillOpacity: Number(itemArr[k][5]),	//中身の不透明度(正確率)
+		  			fillOpacity: Number(itemArr[k][4]),	//中身の不透明度(正確率)
 		  			map: mymap, 						//表示させる地図
-		  			fillOpacity: Number(itemArr[k][5]),	//塗りつぶし色(正確率)
+		  			fillOpacity: Number(itemArr[k][4]),	//塗りつぶし色(正確率)
 		  			bounds: {
-						north: Number(itemArr[k][3]),
-						south: Number(itemArr[k][1]),
-						east: Number(itemArr[k][4]),
-						west: Number(itemArr[k][2])
+						north: Number(itemArr[k][2]),
+						south: Number(itemArr[k][0]),
+						east: Number(itemArr[k][3]),
+						west: Number(itemArr[k][1])
 		  			}
         			})
 				};
