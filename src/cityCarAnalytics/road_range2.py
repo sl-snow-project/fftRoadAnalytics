@@ -4,7 +4,7 @@ import sys
 import os
 
 TH = 600
-L = 20
+L = 500
 lon1 = 0.000010966382364
 lat1 = 0.000008983148616
 #x1y1,x2y2 全体の範囲
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     #sys.argv[2]はx1,sys.argv[3]はx2,sys.argv[4]はy1,sys.argv[5]はy2
 
     #tmp = Sample(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])
-    tmp = Sample(37.498440,139.917766,37.511156,139.928565)
+    tmp = Sample(37.2600,139.5100,37.3333,140.0000)
     latitude = df.latitude
     longitude = df.longitude
     noise = df.accel_z_vertical
