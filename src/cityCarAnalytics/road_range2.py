@@ -4,7 +4,7 @@ import sys
 import os
 
 TH = 600
-L = 500
+L = 100
 lon1 = 0.000010966382364
 lat1 = 0.000008983148616
 #x1y1,x2y2 全体の範囲
@@ -19,7 +19,7 @@ class Sample:
         self.leny = int(abs(self.y2 - self.y1) / (L*lat1))
         #lenx = int(lenx)# + 100
         #leny = int(leny)# + 100
-        #print(lenx,leny)
+        #print(self.lenx,self.leny)
         self.li_noise = [[0 for i in range(self.lenx)] for j in range(self.leny)]
         self.li_path = [[-1 for i in range(self.lenx)] for j in range(self.leny)]
         self.li_ans = [[-1 for i in range(self.lenx)] for j in range(self.leny)]
@@ -54,6 +54,10 @@ class Sample:
 
             #if locx >= x1 and locx <= x2 and locy >= y1 and locy <= y2:
             if latitude[i] >= x1 and latitude[i] <= x2 and longitude[i] >= y1 and longitude[i] <= y2:
+                print("len",self.lenx,self.leny)
+                print("loc",locx,locy)
+                path2 = np.array(self.li_path)
+                print(path2.shape)
                 if(self.li_path[locx][locy]==-1):
                     self.li_path[locx][locy] =0
                 self.li_path[locx][locy] += 1
@@ -75,15 +79,12 @@ class Sample:
 
         for j in range(int(abs(x1-x2)/(L*lon1))):
             for i in range(int(abs(y1-y2)/(L*lat1))):
-                try:
-                    # print(self.li_ans[i][j])
-                    if self.li_path[i][j] > 0:
-                        self.li_ans[i][j] = self.li_noise[i][j] / self.li_path[i][j]
-                        print("path ",self.li_path[i][j])
-                        print("noise ",self.li_noise[i][j])
-                        print("ans ",self.li_ans[i][j])
-                except:
-                    print("i : ", i, "j : ", j)
+                # print(self.li_ans[i][j])
+                if self.li_path[i][j] > 0:
+                    self.li_ans[i][j] = self.li_noise[i][j] / self.li_path[i][j]
+                    #print("path ",self.li_path[i][j])
+                    #print("noise ",self.li_noise[i][j])
+                    #print("ans ",self.li_ans[i][j])
 
 if __name__ == "__main__":
     #sys.argv[1]は、入力するcsvデータ
