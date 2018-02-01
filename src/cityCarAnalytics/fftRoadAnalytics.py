@@ -3,6 +3,8 @@
 # vim:set fileencoding=utf-8:
 
 from scipy.fftpack import fft
+from scipy import signal
+
 import pandas as pd
 import numpy as np
 import sys
@@ -24,8 +26,6 @@ class road_aizu_fft:
         validated_window_pulse = [data for data in window_pulse if len(data) == self.blocksize]
         return validated_window_pulse
 
-
-    
     def parse_fft(self, carname, pulse_data, latitude, longitude, time):
         #if isinstance(parse_data, list) != True:
         #   print("Please input list object")
@@ -40,8 +40,9 @@ class road_aizu_fft:
 
         #position = zip(latitude, longitude, time)
         position_arr = [i for i in range(0, np.shape(latitude)[0], int(blocksize/2))]
+        hamming_pulse = signal.hann(blocksize)
         
-        window_fft = [fft(list(i)) for i in window_pulse]
+        window_fft = [fft(list(i)) for i in window_pulse * hamming_pulse]
         pulse_sum = [sum(abs(pulse)).astype(np.float32) for pulse in window_fft]
         sum_sqare = [i**2 for i in pulse_sum]
 
@@ -62,32 +63,43 @@ class road_aizu_fft:
 
 
 if __name__ == "__main__":
-    dirname = ""
-    tmp = road_aizu_fft(blocksize=4)
-    tmpdata = [1,2,3,4,5,6,7,5,4,3,3,2,1,3,4,5,5]
-    print(tmp.mk_window_pulse(tmpdata))
-    # # df = pd.read_csv(".//sample.csv")
-    # df = pd.read_csv(sys.argv[1])
-    # print(sys.argv[1])
-    # try:
-    #    os.mkdir(sys.argv[2])
-    #    dirname = sys.argv[2]
-    # except:
-    #    os.mkdir("datetime")
-    #    dirname = "datetime"
+    # dirname = ""
+    tmp = road_aizu_fft()
+    # tmpdata = [1,2,3,4,5,6,7,5,4,3,3,2,1,3,4,5,5]
+    # print(tmp.mk_window_pulse(tmpdata))
+    # df = pd.read_csv(".//sample.csv")
+    readfile = sys.argv[1]
+    df = pd.read_csv(readfile)
+    print(readfile)
 
-    # for carname in df.car_name.unique():
-    #     print(carname)
+    print(readfile.split("/")[1])
+    dirname = readfile.split("/")[1]
+    try:
+       os.mkdir(dirname)
+    except:
+       os.mkdir("datetime")
+       dirname = "datetime"
 
-        # #uniqcar_df = df[df.car_name.str.contains(carname) and carname.contains(df.car_name)]
-        # uniqcar_df = df.query('car_name=="'+carname+'"')
-        # unix_date  = uniqcar_df.measurement_ms
-        # latitude   = uniqcar_df.latitude
-        # longitude  = uniqcar_df.longitude
-        # z_vertical = uniqcar_df.accel_z_vertical-9.8
-        # carid      = uniqcar_df.car_name
-        # datetime   = pd.to_datetime(unix_date, unit="ms")
+    for carname in df.car_name.unique():
+        print(carname)
 
-    # fft_response = tmp.parse_fft(pulse_data=z_vertical, carname=list(carid), latitude=list(latitude), longitude=list(longitude), time=datetime)
-    # response_uniqcar_df = pd.DataFrame(fft_response)
-    # response_uniqcar_df.to_csv(str(dirname)+"/"+str(carname) + '.csv')
+        #uniqcar_df = df[df.car_name.str.contains(carname) and carname.contains(df.car_name)]
+        uniqcar_df = df.query('car_name=="'+carname+'"')
+        unix_date  = uniqcar_df.measurement_ms
+        latitude   = uniqcar_df.latitude
+        longitude  = uniqcar_df.longitude
+        z_vertical = uniqcar_df.accel_z_vertical-9.8
+        carid      = uniqcar_df.car_name
+        datetime   = pd.to_datetime(unix_date, unit="ms")
+
+        fft_response = tmp.parse_fft(pulse_data=z_vertical, carname=list(carid), latitude=list(latitude), longitude=list(longitude), time=datetime)
+        response_uniqcar_df = pd.DataFrame(fft_response,
+                                           columns=[
+                                               'car_id',
+                                               'time',
+                                               'accel_z_vertical',
+                                               'raw_data',
+                                               'latitude',
+                                               'longitude'
+                                           ])
+        response_uniqcar_df.to_csv(str(dirname)+"/"+str(carname) + '.csv')
