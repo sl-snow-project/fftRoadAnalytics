@@ -72,8 +72,8 @@ if __name__ == "__main__":
     df = pd.read_csv(readfile)
     print(readfile)
 
-    print(readfile.split("/")[1])
-    dirname = readfile.split("/")[1]
+    print(readfile.split("/")[3])
+    dirname = readfile.split("/")[3]
     try:
        os.mkdir(dirname)
     except:

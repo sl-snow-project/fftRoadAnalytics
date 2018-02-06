@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 import os
 
-TH = 6000
+TH = 3000
 L = 50
 lon1 = 0.000010966382364
 lat1 = 0.000008983148616
@@ -101,7 +101,8 @@ class Sample:
 
 if __name__ == "__main__":
     #sys.argv[1]は、入力するcsvデータ
-    df = pd.read_csv("20160912/aizu_BL-01_11.csv", sep = ',', dtype = 'object')
+    # df = pd.read_csv("20160912/aizu_BL-01_11.csv", sep = ',', dtype = 'object')
+    df = pd.read_csv(sys.argv[1], sep = ',', dtype = 'object')
     #sys.argv[2]はx1,sys.argv[3]はx2,sys.argv[4]はy1,sys.argv[5]はy2
 
     #tmp = Sample(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])
