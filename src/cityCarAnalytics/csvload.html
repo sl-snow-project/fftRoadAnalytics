@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 1000px;
+        width: 800;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps for Snow DEKOBOKO</h3>
+    <form name="myform">
+      <input name="myfile" type="file" />
+    </form>
+  	<div id="map"></div>							<!--マップを表示するための領域確保-->
+
+	<script>
+	//マップの変数(オブジェクト？？)
+	var map;
+  var itemArr = [];
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 20,
+      center: {lat: 37.507491, lng: 139.931477},
+      mapTypeId: 'terrain'
+    });
+  var form = document.forms.myform;
+    form.myfile.addEventListener( 'change', function(e) {
+
+      var result = e.target.files[0];
+
+      //FileReaderのインスタンスを作成する
+      var reader = new FileReader();
+
+      //読み込んだファイルの中身を取得する
+      reader.readAsText( result );
+
+      //ファイルの中身を取得後に処理を行う
+      reader.addEventListener( 'load', function() {
+
+        var lineArr = reader.result.split("\n");
+        // 行と列の二次元配列にする
+        for (var i = 0; i < lineArr.length; ++i) {
+            itemArr[i]=[];
+            itemArr[i]=lineArr[i].split(",");
+        }
+    for (var k = 0; k < lineArr.length; k++) {
+		   var rectangle = new google.maps.Rectangle({
+        strokeColor: '#000000',				//枠の色
+		  	strokeOpacity: 0.5,					//枠の不透明度
+		 		strokeWeight: 1,					//枠の幅
+	 			fillColor: '#FF0000',				//中身の色
+		  	fillOpacity: Number(itemArr[k][4]),	//中身の不透明度(正確率)
+				//fillOpacity: 0.35, //中身の不透明度(正確率)
+		 		map: map, 						//表示させる地図
+		  			//fillOpacity: Number(itemArr[k][4]),	//塗りつぶし色(正確率)
+	 			bounds: {
+					  north: Number(itemArr[k][3]),
+						south: Number(itemArr[k][1]),
+						east: Number(itemArr[k][4]),
+						west: Number(itemArr[k][2])
+						//north: 37.507491,
+            //south: 37.507501,
+            //east: 139.931487,
+            //west: 139.931477
+		  			}
+        	});
+				}
+      })
+    })
+}
+    </script>
+
+	<!--指定したURLからAPIを読み込む-->
+	<!--callbackパラメータは、APIが完全に読み込まれた後initMap関数を実行する-->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBievQ2UGj1ttA8td8COzIYywBfYiYfsbs&callback=initMap">
+    </script>
+  </body>
+</html>
