@@ -38,9 +38,8 @@
         	reader.onload = function() {
             	// 行単位で配列にする
             	var lineArr = reader.result.split("\n");
-            	// 行と列の二次元配列にする
-            	// var itemArr = [];
-            	for (var i = 0; i < lineArr.length; i++) {
+            	
+				for (var i = 0; i < lineArr.length; i++) {
                 	itemArr[i] = lineArr[i].split(",");
             	}
  				
@@ -57,7 +56,7 @@
             	}
             	insert += '</table>';
 				//tableをhtmlに書き込み
-            	//result.innerHTML = insert;
+            	result.innerHTML = insert;
 
 				//以下のコードが複数の長方形を配置する
 				for (var k = 1; k < itemArr.length; k++) {
@@ -66,14 +65,13 @@
 		  			strokeOpacity: 0.5,					//枠の不透明度
 		  			strokeWeight: 1,					//枠の幅
 		  			fillColor: '#FF0000',				//中身の色
-		  			fillOpacity: Number(itemArr[k][4]),	//中身の不透明度(正確率)
+		  			fillOpacity: Number(itemArr[k][5]),	//中身の不透明度(正確率)
 		  			map: mymap, 						//表示させる地図
-		  			fillOpacity: Number(itemArr[k][4]),	//塗りつぶし色(正確率)
 		  			bounds: {
-						north: Number(itemArr[k][2]),
-						south: Number(itemArr[k][0]),
-						east: Number(itemArr[k][3]),
-						west: Number(itemArr[k][1])
+						north: Number(itemArr[k][3]),
+						south: Number(itemArr[k][1]),
+						east: Number(itemArr[k][4]),
+						west: Number(itemArr[k][2])
 		  			}
         			})
 				};
@@ -98,7 +96,7 @@
 	<!--指定したURLからAPIを読み込む-->
 	<!--callbackパラメータは、APIが完全に読み込まれた後initMap関数を実行する-->
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9VZ997ZsXfgSs8Nw1LkXPy_dYYWVPPFQ&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBievQ2UGj1ttA8td8COzIYywBfYiYfsbs&callback=initMap">
     </script>
   </body>
 </html>
