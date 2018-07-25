@@ -55,13 +55,13 @@
 		  	strokeOpacity: 0.5,					//枠の不透明度
 		 		strokeWeight: 1,					//枠の幅
 	 			fillColor: '#008000',				//中身の色
-		  	fillOpacity: Number(itemArr_1[k][5]),	//中身の不透明度(正確率)
+		  	fillOpacity: Number(itemArr_1[k][4]),	//中身の不透明度(正確率)
 		 		map: map, 						//表示させる地図
 	 			bounds: {
-					  north: Number(itemArr_1[k][3]),
-						south: Number(itemArr_1[k][1]),
-						east: Number(itemArr_1[k][4]),
-						west: Number(itemArr_1[k][2])
+					  north: Number(itemArr_1[k][2]),
+						south: Number(itemArr_1[k][0]),
+						east: Number(itemArr_1[k][3]),
+						west: Number(itemArr_1[k][1])
 		  			}
         	});
 				}
@@ -93,9 +93,9 @@
               itemArr_2[i]=[];
               itemArr_2[i]=lineArr_2[i].split(",");
           }
-      for (var k = 0; k < lineArr_2.length; k++) {
-        var coment = itemArr_2[k][4]
-        coment = String(coment)
+      for (var k = 1; k < lineArr_2.length-1; k++) {
+        var comment = itemArr_2[k][4]
+        comment = String(comment)
         var b = itemArr_2[k][1];
 		    var time = String(b)
         data.push({
