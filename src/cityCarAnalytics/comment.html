@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 1000px;
+        width: 800;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps for Snow DEKOBOKO</h3>
+    <form name="myform_1">
+      <input name="myfile" type="file" />
+    </form>
+    <form name="myform_2">
+      <input name="myfile_2" type="file" />
+    </form>
+  	<div id="map"></div>							<!--マップを表示するための領域確保-->
+
+	<script>
+	//マップの変数(オブジェクト？？)
+	var map;
+  var itemArr_1 = [];
+  var itemArr_2 = [];
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 20,
+      center: {lat: 37.507491, lng: 139.931477},
+      mapTypeId: 'terrain'
+    });
+  var form_1 = document.forms.myform_1;
+    form_1.myfile.addEventListener( 'change', function(e) {
+
+      var result = e.target.files[0];
+
+      //FileReaderのインスタンスを作成する
+      var reader = new FileReader();
+
+      //読み込んだファイルの中身を取得する
+      reader.readAsText(result);
+
+      //ファイルの中身を取得後に処理を行う
+      reader.addEventListener('load', function() {
+
+        var lineArr = reader.result.split("\n");
+        // 行と列の二次元配列にする
+        for (var i = 0; i < lineArr.length; ++i) {
+            itemArr_1[i]=[];
+            itemArr_1[i]=lineArr[i].split(",");
+        }
+    for (var k = 0; k < lineArr.length; k++) {
+		   var rectangle = new google.maps.Rectangle({
+        strokeColor: '#000000',				//枠の色
+		  	strokeOpacity: 0.5,					//枠の不透明度
+		 		strokeWeight: 1,					//枠の幅
+	 			fillColor: '#FF0000',				//中身の色
+		  	fillOpacity: Number(itemArr_1[k][4]),	//中身の不透明度(正確率)
+		 		map: map, 						//表示させる地図
+	 			bounds: {
+					  north: Number(itemArr_1[k][2]),
+						south: Number(itemArr_1[k][0]),
+						east: Number(itemArr_1[k][3]),
+						west: Number(itemArr_1[k][1])
+		  			}
+        	});
+				}
+      })
+    })
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 20,
+        center: {lat: 37.507491, lng: 139.931477},
+        mapTypeId: 'terrain'
+      });
+    var data = new Array();
+    var form_2 = document.forms.myform_2;
+      form_2.myfile_2.addEventListener( 'change', function(e) {
+
+        var result_2 = e.target.files[0];
+
+        //FileReaderのインスタンスを作成する
+        var reader_2 = new FileReader();
+
+        //読み込んだファイルの中身を取得する
+        reader_2.readAsText( result_2 );
+
+        //ファイルの中身を取得後に処理を行う
+        reader_2.addEventListener( 'load', function() {
+
+          var lineArr_2 = reader_2.result.split("\n");
+          // 行と列の二次元配列にする
+          for (var i = 0; i < lineArr_2.length; ++i) {
+              itemArr_2[i]=[];
+              itemArr_2[i]=lineArr_2[i].split(",");
+          }
+      for (var k = 1; k < lineArr_2.length-1; k++) {
+		var a = itemArr_2[k][4];
+		var comment = String(a);
+		var b = itemArr_2[k][1];
+		var time = String(b)
+		data.push({
+          lat: Number(itemArr_2[k][5]),
+          lng: Number(itemArr_2[k][6]),
+          content: "[" + time + "]<br>"  + comment
+        });
+      }
+
+    var markers = new Array();
+    //マーカーを配置するループ
+    for (i = 0; i < data.length; i++) {
+        markers[i] = new google.maps.Marker({
+            position: new google.maps.LatLng(data[i].lat, data[i].lng),
+            map: map
+        });
+        markerInfo(markers[i], data[i].content);
+      }
+    })
+  })
+}
+
+function markerInfo(marker, name) {
+    google.maps.event.addListener(marker, 'click', function (event) {
+        new google.maps.InfoWindow({
+            content: name
+        }).open(marker.getMap(), marker);
+    });
+}
+
+
+ </script>
+	<!--指定したURLからAPIを読み込む-->
+	<!--callbackパラメータは、APIが完全に読み込まれた後initMap関数を実行する-->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBievQ2UGj1ttA8td8COzIYywBfYiYfsbs&callback=initMap">
+    </script>
+  </body>
+</html>
